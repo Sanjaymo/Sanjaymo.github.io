@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Project portfolio of Sanjay Choudhari with AI, ML, and full-stack applications.">
+  <title>Projects | Sanjay Choudhari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/main.js" defer></script>
+</head>
+<body data-page="projects">
+  <div class="noise-layer" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Sanjay Choudhari
+      </a>
+      <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="site-nav" class="site-nav" data-nav>
+        <a href="index.html" data-link="home">Home</a>
+        <a href="about.html" data-link="about">About</a>
+        <a href="projects.html" data-link="projects">Projects</a>
+        <a href="experience.html" data-link="experience">Experience</a>
+        <a href="contact.html" data-link="contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero wrap">
+      <p class="eyebrow" data-reveal>Projects</p>
+      <h1 data-reveal style="--delay: .05s;">Full project collection across AI, ML, and web engineering.</h1>
+      <p class="lead" data-reveal style="--delay: .1s;">
+        These are selected projects from my original portfolio, including deployed apps and source repositories.
+      </p>
+    </section>
+
+    <section class="section wrap">
+      <div class="project-grid">
+        <article class="card project-card" data-reveal style="--delay: .05s;">
+          <p class="project-type">Full Stack</p>
+          <h2>MERN Todo App</h2>
+          <p>A robust daily task management application built with MongoDB, Express.js, React, and Node.js.</p>
+          <div class="chip-row">
+            <span class="chip">React</span>
+            <span class="chip">Node.js</span>
+            <span class="chip">MongoDB</span>
+            <span class="chip">Express.js</span>
+          </div>
+          <div class="button-row">
+            <a class="btn btn-small btn-ghost" href="https://mern-todo-app-mu-three.vercel.app" target="_blank" rel="noopener noreferrer">Live Demo</a>
+            <a class="btn btn-small btn-primary" href="https://github.com/Sanjaymo/mern-todo-app.git" target="_blank" rel="noopener noreferrer">Source Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-reveal style="--delay: .1s;">
+          <p class="project-type">Generative AI</p>
+          <h2>AI Document Retrieval System</h2>
+          <p>Document parsing and retrieval pipeline using IBM Granite and Docling for practical RAG workflows.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">IBM Granite</span>
+            <span class="chip">Docling</span>
+          </div>
+          <div class="button-row">
+            <a class="btn btn-small btn-ghost" href="https://colab.research.google.com/github/ibm-granite-community/granite-snack-cookbook/blob/main/recipes/RAG/Granite_Docling_RAG.ipynb" target="_blank" rel="noopener noreferrer">Notebook</a>
+            <a class="btn btn-small btn-primary" href="https://github.com/Sanjaymo/AI-Powered-Document-Retrieval-System-with-IBM-Granite-and-Docling-.git" target="_blank" rel="noopener noreferrer">Source Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-reveal style="--delay: .15s;">
+          <p class="project-type">RAG</p>
+          <h2>RAG with Langchain</h2>
+          <p>Semantic retrieval setup that embeds user queries and retrieves contextually similar passages.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">Langchain</span>
+            <span class="chip">Vector DB</span>
+          </div>
+          <div class="button-row">
+            <a class="btn btn-small btn-ghost" href="https://colab.research.google.com/github/ibm-granite-community/granite-snack-cookbook/blob/main/recipes/RAG/RAG_with_Langchain.ipynb#scrollTo=8TYqQA_-ropV" target="_blank" rel="noopener noreferrer">Notebook</a>
+            <a class="btn btn-small btn-primary" href="https://github.com/Sanjaymo/RAG_with_Langchain.git" target="_blank" rel="noopener noreferrer">Source Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-reveal style="--delay: .2s;">
+          <p class="project-type">Machine Learning</p>
+          <h2>House Price Prediction</h2>
+          <p>Interactive prediction dashboard for housing analytics and price estimation insights.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">Streamlit</span>
+            <span class="chip">Matplotlib</span>
+          </div>
+          <div class="button-row">
+            <a class="btn btn-small btn-ghost" href="https://house-price-prediction-09.streamlit.app/" target="_blank" rel="noopener noreferrer">Live App</a>
+            <a class="btn btn-small btn-primary" href="https://github.com/Sanjaymo/house-price-prediction.git" target="_blank" rel="noopener noreferrer">Source Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-reveal style="--delay: .25s;">
+          <p class="project-type">Machine Learning</p>
+          <h2>Crop Recommendation System</h2>
+          <p>Model-driven recommendation system that predicts suitable crops from soil and weather features.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">ML</span>
+            <span class="chip">Streamlit</span>
+          </div>
+          <div class="button-row">
+            <a class="btn btn-small btn-ghost" href="https://crop09.streamlit.app/" target="_blank" rel="noopener noreferrer">Live App</a>
+            <a class="btn btn-small btn-primary" href="https://github.com/Sanjaymo/Crop_recommandation_system.git" target="_blank" rel="noopener noreferrer">Source Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-reveal style="--delay: .3s;">
+          <p class="project-type">Recommendation Engine</p>
+          <h2>Movie Recommendation System</h2>
+          <p>Content-based recommender that uses NLP metadata similarity and cosine distance for suggestions.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">NLP</span>
+            <span class="chip">Streamlit</span>
+          </div>
+          <div class="button-row">
+            <a class="btn btn-small btn-ghost" href="https://movie9.streamlit.app/" target="_blank" rel="noopener noreferrer">Live App</a>
+            <a class="btn btn-small btn-primary" href="https://github.com/Sanjaymo/movie_recommendation_system.git" target="_blank" rel="noopener noreferrer">Source Code</a>
+          </div>
+        </article>
+
+        <article class="card project-card" data-reveal style="--delay: .35s;">
+          <p class="project-type">ML Classification</p>
+          <h2>Personality Prediction</h2>
+          <p>Predicts Introvert, Extrovert, and Ambivert classes based on behavioral input features.</p>
+          <div class="chip-row">
+            <span class="chip">Python</span>
+            <span class="chip">ML</span>
+            <span class="chip">Visualization</span>
+          </div>
+          <div class="button-row">
+            <a class="btn btn-small btn-ghost" href="https://personality-prediction-check-enjtcfujydzgkcn8ihcwls.streamlit.app/" target="_blank" rel="noopener noreferrer">Live App</a>
+            <a class="btn btn-small btn-primary" href="https://github.com/Sanjaymo/Personality-Prediction-Check.git" target="_blank" rel="noopener noreferrer">Source Code</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>(c) <span class="js-year"></span> Sanjay Choudhari</p>
+      <p><a href="experience.html">Next: Experience</a></p>
+    </div>
+  </footer>
+</body>
+</html>

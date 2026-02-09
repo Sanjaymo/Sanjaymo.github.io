@@ -1,812 +1,163 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanjay Choudhari | Developer & Creator</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <style>
-        /* Custom Styles & Animations */
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #0f172a; /* Fallback dark blue */
-            color: #e2e8f0;
-            overflow-x: hidden;
-        }
-
-        /* 3D Canvas Background */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
-
-        /* Glassmorphism Cards */
-        .glass-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, border-color 0.3s ease;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(56, 189, 248, 0.5); /* Sky blue glow */
-        }
-
-        /* Gradient Text */
-        .text-gradient {
-            background: linear-gradient(to right, #38bdf8, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Navigation Active State */
-        .nav-link.active {
-            color: #38bdf8;
-            font-weight: 600;
-        }
-        
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569; 
-        }
-
-        /* --- SCROLL REVEAL ANIMATION CLASSES --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sanjay Choudhari portfolio preview page with links to full details on skills, projects, experience, and contact.">
+  <title>Sanjay Choudhari | Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/main.js" defer></script>
 </head>
-<body class="antialiased">
+<body data-page="home">
+  <div class="noise-layer" aria-hidden="true"></div>
 
-    <canvas id="bg-canvas"></canvas>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Sanjay Choudhari
+      </a>
+      <button class="nav-toggle" data-nav-toggle aria-label="Toggle navigation" aria-expanded="false" aria-controls="site-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="site-nav" class="site-nav" data-nav>
+        <a href="index.html" data-link="home">Home</a>
+        <a href="about.html" data-link="about">About</a>
+        <a href="projects.html" data-link="projects">Projects</a>
+        <a href="experience.html" data-link="experience">Experience</a>
+        <a href="contact.html" data-link="contact">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <nav class="fixed w-full z-40 top-0 start-0 border-b border-white/10 bg-slate-900/80 backdrop-blur-md">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <span class="self-center text-2xl font-bold whitespace-nowrap text-white"><i class="fa-solid fa-cube text-sky-400 mr-2"></i>Sanjay.Dev</span>
-            </a>
-            <button id="menu-toggle" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-400 rounded-lg md:hidden hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-600">
-                <span class="sr-only">Open main menu</span>
-                <i class="fa-solid fa-bars text-xl"></i>
-            </button>
-            <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-                <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-700 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
-                    <li><a href="#home" class="nav-link block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-sky-400 md:p-0" aria-current="page">Home</a></li>
-                    <li><a href="#about" class="nav-link block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-sky-400 md:p-0">About</a></li>
-                    <li><a href="#skills" class="nav-link block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-sky-400 md:p-0">Knowledge</a></li>
-                    <li><a href="#certificates" class="nav-link block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-sky-400 md:p-0">Certificates</a></li>
-                    <li><a href="#projects" class="nav-link block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-sky-400 md:p-0">Projects</a></li>
-                    <li><a href="#career" class="nav-link block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-sky-400 md:p-0">career</a></li>
-                    <li><a href="#services" class="nav-link block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-sky-400 md:p-0">services</a></li>
-                    <li><a href="#contact" class="nav-link block py-2 px-3 text-gray-300 rounded hover:bg-gray-700 md:hover:bg-transparent md:border-0 md:hover:text-sky-400 md:p-0">Contact</a></li>
-                </ul>
-            </div>
+  <main>
+    <section class="hero hero-home wrap">
+      <div class="hero-copy" data-reveal style="--delay: .05s;">
+        <p class="eyebrow">Portfolio 2026</p>
+        <h1>Building AI-first products and full-stack web experiences.</h1>
+        <p class="lead">
+          Data Scientist and Full Stack Developer focused on practical machine learning, MERN applications,
+          and modern user experiences.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="projects.html">See Full Projects</a>
+          <a class="btn btn-ghost" href="contact.html">Work With Me</a>
         </div>
-    </nav>
-
-    <section id="home" class="min-h-screen flex items-center justify-center pt-16 relative">
-        <div class="text-center px-4 z-10 max-w-4xl mx-auto reveal">
-            <h2 class="text-sky-400 font-semibold tracking-widest text-sm uppercase mb-4 animate-pulse">Hello, I'm Sanjay Choudhari</h2>
-            <h1 class="mb-4 text-5xl font-extrabold tracking-tight leading-none md:text-7xl lg:text-8xl text-white">
-                I Create <span class="text-gradient">Digital Experiences</span>
-            </h1>
-            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">
-                Data Scientist | Full Stack Developer | UI/UX Enthusiast 
-            </p>
-
-            <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-                <a href="#projects" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:ring-sky-900 transition-all">
-                    View My Work
-                    <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                    </svg>
-                </a>
-                <a href="#contact" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-gray-300 rounded-lg border border-gray-600 hover:text-white hover:bg-gray-700 focus:ring-4 focus:ring-gray-800 glass-card transition-all">
-                    Connect With Me
-                </a>
-            </div>
+        <ul class="stat-row">
+          <li><strong>2+</strong><span>Years experience</span></li>
+          <li><strong>10+</strong><span>Projects built</span></li>
+          <li><strong>B.Tech CSE (AI)</strong><span>Parul University</span></li>
+        </ul>
+      </div>
+      <aside class="hero-panel card" data-reveal style="--delay: .15s;">
+        <div class="hero-avatar-wrap">
+          <img src="https://github.com/Sanjaymo.png" alt="Sanjay Choudhari profile photo" class="hero-avatar">
         </div>
+        <h2>Sanjay Choudhari</h2>
+        <p>Data Scientist | Full Stack Developer | AI Builder</p>
+        <div class="chip-row">
+          <span class="chip">Python</span>
+          <span class="chip">MERN</span>
+          <span class="chip">RAG</span>
+          <span class="chip">AWS</span>
+        </div>
+      </aside>
     </section>
 
-    <section id="about" class="py-20 px-4">
-        <div class="max-w-screen-xl mx-auto">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="glass-card p-8 rounded-2xl reveal">
-                    <h2 class="text-3xl font-bold mb-6 text-white border-b border-gray-700 pb-2">About Me</h2>
-                    <p class="text-gray-300 mb-4 leading-relaxed" id="about-text-1">
-                        I am a passionate developer and data scientist with expertise in building end-to-end solutions. My technical journey combines the analytical rigor of data science with the creative problem-solving of software development.
-                    <p class="text-gray-300 mb-6 leading-relaxed" id="about-text-2">
-                    I specialize in creating data-driven applications, implementing machine learning models in production, and designing intuitive user experiences backed by robust analytics.
-                    </p>
-                    <div class="flex gap-4">
-                        <div class="text-center">
-                            <h3 class="text-3xl font-bold text-sky-400">2+</h3>
-                            <p class="text-sm text-gray-400">Years Exp.</p>
-                        </div>
-                        <div class="text-center">
-                            <h3 class="text-3xl font-bold text-sky-400">10+</h3>
-                            <p class="text-sm text-gray-400">Projects</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="relative h-64 md:h-full flex items-center justify-center reveal">
-                    <div class="absolute inset-0 bg-gradient-to-r from-sky-500 to-purple-600 rounded-full blur-3xl opacity-20 animate-pulse"></div>
-                    <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full p-2 border-2 border-dashed border-sky-400/50">
-                        <img src="https://github.com/Sanjaymo.png" 
-                             alt="Sanjay Choudhari" 
-                             class="w-full h-full object-cover rounded-full border-4 border-slate-900 shadow-[0_0_30px_rgba(56,189,248,0.4)] hover:scale-105 transition-transform duration-500">
-                    </div>
-                </div>
+    <section class="section wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Preview</p>
+        <h2>Explore Full Pages</h2>
+        <p>Main page shows previews only. Open any page below for complete details.</p>
+      </div>
 
-            </div>
-        </div>
+      <div class="preview-grid">
+        <article class="preview-card card" data-reveal style="--delay: .05s;">
+          <h3>About and Skills</h3>
+          <p>
+            Professional summary, technical stack, and certifications from data science to full stack delivery.
+          </p>
+          <div class="chip-row">
+            <span class="chip">Machine Learning</span>
+            <span class="chip">React</span>
+            <span class="chip">Node.js</span>
+          </div>
+          <a class="text-link" href="about.html">Open About Page</a>
+        </article>
+
+        <article class="preview-card card" data-reveal style="--delay: .1s;">
+          <h3>Projects</h3>
+          <p>
+            AI document retrieval, RAG with Langchain, and multiple deployed ML web apps.
+          </p>
+          <ul class="mini-list">
+            <li>MERN Todo App</li>
+            <li>AI Document Retrieval</li>
+            <li>Crop Recommendation</li>
+          </ul>
+          <a class="text-link" href="projects.html">Open Projects Page</a>
+        </article>
+
+        <article class="preview-card card" data-reveal style="--delay: .15s;">
+          <h3>Experience and Education</h3>
+          <p>
+            Internship timeline, education milestones, and credential highlights.
+          </p>
+          <ul class="mini-list">
+            <li>Data Science Intern at IIT Hyderabad</li>
+            <li>Full Stack Trainee at Inspireleap</li>
+            <li>B.Tech in Computer Science (AI)</li>
+          </ul>
+          <a class="text-link" href="experience.html">Open Experience Page</a>
+        </article>
+
+        <article class="preview-card card" data-reveal style="--delay: .2s;">
+          <h3>Contact and Profiles</h3>
+          <p>
+            Direct contact, social links, coding platforms, and a working static contact form.
+          </p>
+          <div class="chip-row">
+            <span class="chip">GitHub</span>
+            <span class="chip">LinkedIn</span>
+            <span class="chip">LeetCode</span>
+          </div>
+          <a class="text-link" href="contact.html">Open Contact Page</a>
+        </article>
+      </div>
     </section>
 
-    <section id="skills" class="py-20 px-4 bg-slate-900/50">
-        <div class="max-w-screen-xl mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-12 text-white reveal">My <span class="text-gradient">Knowledge</span></h2>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-chart-pie text-5xl text-blue-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold">Data Science</h3>
-                    <p class="text-gray-400 text-sm mt-2">Data Analysis & Insights</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-brain text-5xl text-purple-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold">ML w/ Python</h3>
-                    <p class="text-gray-400 text-sm mt-2">Machine Learning Models</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-brands fa-react text-5xl text-sky-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold">MERN Stack</h3>
-                    <p class="text-gray-400 text-sm mt-2">Mongo, Express, React, Node</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-layer-group text-5xl text-yellow-300 mb-4"></i>
-                    <h3 class="text-xl font-semibold">Py Libraries</h3>
-                    <p class="text-gray-400 text-xs mt-2 text-center">Numpy, Pandas, PyTorch</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-brands fa-aws text-5xl text-orange-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold">AWS</h3>
-                    <p class="text-gray-400 text-sm mt-2">Cloud Computing Services</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-brands fa-linux text-5xl text-white mb-4"></i>
-                    <h3 class="text-xl font-semibold">Linux</h3>
-                    <p class="text-gray-400 text-sm mt-2">OS & Shell Scripting</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-brands fa-java text-5xl text-red-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold">Java OOPs</h3>
-                    <p class="text-gray-400 text-sm mt-2">Object Oriented Logic</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-code text-5xl text-blue-600 mb-4"></i>
-                    <h3 class="text-xl font-semibold">C++</h3>
-                    <p class="text-gray-400 text-sm mt-2">Vectors & STL</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-sitemap text-5xl text-green-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold">DSA</h3>
-                    <p class="text-gray-400 text-sm mt-2">Data Structures & Design</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-brands fa-html5 text-5xl text-orange-500 mb-4"></i>
-                    <h3 class="text-xl font-semibold">Web Basics</h3>
-                    <p class="text-gray-400 text-sm mt-2">HTML, CSS, JavaScript</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-flask text-5xl text-gray-200 mb-4"></i>
-                    <h3 class="text-xl font-semibold">Flask</h3>
-                    <p class="text-gray-400 text-sm mt-2">Python Web Framework</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-database text-5xl text-teal-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold">Databases</h3>
-                    <p class="text-gray-400 text-sm mt-2">SQL, MySQL, MongoDB</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-brands fa-github text-5xl text-white mb-4"></i>
-                    <h3 class="text-xl font-semibold">GitHub</h3>
-                    <p class="text-gray-400 text-sm mt-2">Version Control</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-server text-5xl text-orange-300 mb-4"></i>
-                    <h3 class="text-xl font-semibold">XAMPP</h3>
-                    <p class="text-gray-400 text-sm mt-2">Local Server Env</p>
-                </div>
-                <div class="glass-card p-6 rounded-xl flex flex-col items-center hover:bg-slate-800 transition-colors reveal">
-                    <i class="fa-solid fa-screwdriver-wrench text-5xl text-indigo-400 mb-4"></i>
-                    <h3 class="text-xl font-semibold">Tools</h3>
-                    <p class="text-gray-400 text-sm mt-2">Colab, VSCode, Eclipse</p>
-                </div>
-            </div>
-        </div>
+    <section class="section wrap">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Featured</p>
+        <h2>Quick Project Highlights</h2>
+      </div>
+      <div class="featured-strip">
+        <article class="card featured-item" data-reveal style="--delay: .05s;">
+          <h3>AI Document Retrieval System</h3>
+          <p>IBM Granite + Docling based document parsing and retrieval workflow.</p>
+        </article>
+        <article class="card featured-item" data-reveal style="--delay: .1s;">
+          <h3>RAG with Langchain</h3>
+          <p>Semantic retrieval setup using embeddings and vector database flows.</p>
+        </article>
+        <article class="card featured-item" data-reveal style="--delay: .15s;">
+          <h3>MERN Todo Application</h3>
+          <p>End-to-end task manager with MongoDB, Express, React, and Node.js.</p>
+        </article>
+      </div>
     </section>
+  </main>
 
-    <section id="certificates" class="py-20 px-4">
-        <div class="max-w-screen-xl mx-auto">
-            <h2 class="text-4xl font-bold mb-12 text-center text-white reveal">Certificates</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass-card p-6 rounded-xl group relative overflow-hidden reveal">
-                    <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-100 transition-opacity">
-                        <i class="fa-solid fa-award text-6xl text-yellow-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-sky-300 mb-2">Full Stack Web Development</h3>
-                    <p class="text-gray-400 text-sm mb-4">Inspireleap associated with Wipro Dice  <br>Feb 2025 - May 2025</p>
-                    <p class="text-gray-300 mb-6 text-sm">Employee Leave Management System </p>
-                    <a href="https://drive.google.com/file/d/1vXGji_kNgE7_khJhpItUaK6qM4wxXuM-/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-block text-white bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded text-sm transition-colors">View Credential</a>
-                </div>
-
-                <div class="glass-card p-6 rounded-xl group relative overflow-hidden reveal">
-                    <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-100 transition-opacity">
-                        <i class="fa-solid fa-certificate text-6xl text-purple-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-sky-300 mb-2">Data Science Intern</h3>
-                    <p class="text-gray-400 text-sm mb-4"> Center Of Excellence in Financial Technology - IIT Hyderabad  <br> 2025 May - June 2025</p>
-                    <p class="text-gray-300 mb-6 text-sm">Data structures, algorithm scripting and object-oriented programming.</p>
-                    <a href="https://drive.google.com/file/d/1CGyzk1XQpyeFlJFERvX-GxnBiBRvXj5e/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-block text-white bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded text-sm transition-colors">View Credential</a>
-                </div>
-
-                <div class="glass-card p-6 rounded-xl group relative overflow-hidden reveal">
-                    <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-100 transition-opacity">
-                        <i class="fa-solid fa-medal text-6xl text-orange-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-sky-300 mb-2"> AWS Cloud Practitioner</h3>
-                    <p class="text-gray-400 text-sm mb-4">Amazon Web Services - 2026</p>
-                    <p class="text-gray-300 mb-6 text-sm">Cloud concepts, security, and core AWS services architecture.</p>
-                    <a href="https://drive.google.com/file/d/18z23C23xZbSI5oXzYlX6HERAx0x69Qp1/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="inline-block text-white bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded text-sm transition-colors">View Credential</a>
-                </div>
-
-                <div class="glass-card p-6 rounded-xl group relative overflow-hidden reveal">
-                    <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-100 transition-opacity">
-                        <i class="fa-solid fa-medal text-6xl text-orange-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-sky-300 mb-2">IBM SkillsBuild - 1</h3>
-                    <p class="text-gray-400 text-sm mb-4">Getting Started with Artificial Intelligence</p>
-                    <p class="text-gray-300 mb-6 text-sm">A foundational understanding of Artificial Intelligence concepts and processes, including common applications of AI, and generative AI tools to refine and create prompts.</p>
-                    <a href="https://www.credly.com/badges/55b1de9a-2280-4734-ae81-c7f5db79ad19" target="_blank" rel="noopener noreferrer" class="inline-block text-white bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded text-sm transition-colors">View Credential</a>
-                </div>
-
-                <div class="glass-card p-6 rounded-xl group relative overflow-hidden reveal">
-                    <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-100 transition-opacity">
-                        <i class="fa-solid fa-certificate text-6xl text-purple-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-sky-300 mb-2">IBM SkillBuild - 2</h3>
-                    <p class="text-gray-400 text-sm mb-4">  Build an AI-Powered Document Retrieval System with IBM Granite and Docling</p>
-                    <p class="text-gray-300 mb-6 text-sm">Completed a practical lab focused on integrating IBM Granite models with Docling for advanced document parsing and retrieval tasks.</p>
-                    <a href="https://drive.google.com/file/d/1-ZB0wQlQtNGTBUdrTep4yj3GNbtQD-hk/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-block text-white bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded text-sm transition-colors">View Credential</a>
-                </div>
-
-                <div class="glass-card p-6 rounded-xl group relative overflow-hidden reveal">
-                    <div class="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-100 transition-opacity">
-                        <i class="fa-solid fa-certificate text-6xl text-purple-500"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-sky-300 mb-2">IBM SkillBuild - 3</h3>
-                    <p class="text-gray-400 text-sm mb-4">  Retrieval Augmented Generation (RAG) with Langchain</p>
-                    <p class="text-gray-300 mb-6 text-sm">RAG is to create dense vector representations of the knowledge base in order to retrieve text chunks that are semantically similar to a given user query.</p>
-                    <a href="https://drive.google.com/file/d/1FlaXMYCjoMmJ4ytudwNUSn1beDOBf5e_/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-block text-white bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded text-sm transition-colors">View Credential</a>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-20 px-4 bg-slate-900/50">
-        <div class="max-w-screen-xl mx-auto">
-            <h2 class="text-4xl font-bold mb-12 text-center reveal">My <span class="text-gradient">Projects</span></h2>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <div class="glass-card rounded-xl overflow-hidden hover:shadow-sky-500/20 hover:shadow-lg transition-all duration-300 reveal">
-                    <div class="h-48 flex items-center justify-center group relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=500&q=60" alt="Todo App" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <a href="https://github.com/Sanjaymo/mern-todo-app.git" target="_blank" rel="noopener noreferrer" class="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">MERN-TODO-APP</h3>
-                        <p class="text-gray-400 text-sm mb-4">A robust MERN stack application to streamline what to do in a day.</p>
-                        <a href="https://mern-todo-app-mu-three.vercel.app " target="_blank" class="text-sky-400 hover:text-sky-300 text-sm inline-block mb-3 font-semibold"><i class="fa-solid fa-link mr-1"></i> Visit Project Link</a>
-                        <div class="flex gap-2">
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">React</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Node.js</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">MongoDB</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Express.js</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden hover:shadow-sky-500/20 hover:shadow-lg transition-all duration-300 reveal">
-                    <div class="h-48 flex items-center justify-center group relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=500&q=60" alt="AI Doc" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <a href="https://github.com/Sanjaymo/AI-Powered-Document-Retrieval-System-with-IBM-Granite-and-Docling-.git" target="_blank" rel="noopener noreferrer" class="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">AI Document Retrieval</h3>
-                        <p class="text-gray-400 text-sm mb-4">Advanced document parsing system using IBM Granite models and Docling integration.</p>
-                        <a href="https://colab.research.google.com/github/ibm-granite-community/granite-snack-cookbook/blob/main/recipes/RAG/Granite_Docling_RAG.ipynb" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm inline-block mb-3 font-semibold"><i class="fa-solid fa-link mr-1"></i> Visit Project Link</a>
-                        <div class="flex gap-2">
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Python</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Generative AI</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Docling</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden hover:shadow-sky-500/20 hover:shadow-lg transition-all duration-300 reveal">
-                    <div class="h-48 flex items-center justify-center group relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=500&q=60" alt="RAG" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <a href="https://github.com/Sanjaymo/RAG_with_Langchain.git" target="_blank" rel="noopener noreferrer" class="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">RAG with Langchain</h3>
-                        <p class="text-gray-400 text-sm mb-4">Retrieve relevant passages from the database. In this recipe, we use an embedding of the query to retrieve semantically similar passages.</p>
-                        <a href="https://colab.research.google.com/github/ibm-granite-community/granite-snack-cookbook/blob/main/recipes/RAG/RAG_with_Langchain.ipynb#scrollTo=8TYqQA_-ropV" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm inline-block mb-3 font-semibold"><i class="fa-solid fa-link mr-1"></i> Visit Project Link</a>
-                        <div class="flex gap-2">
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Python</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Langchain</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">RAG</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden hover:shadow-sky-500/20 hover:shadow-lg transition-all duration-300 reveal">
-                    <div class="h-48 flex items-center justify-center group relative overflow-hidden">
-                        <img src="https://images.pexels.com/photos/1546168/pexels-photo-1546168.jpeg" alt="Real Estate" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <a href="https://github.com/Sanjaymo/house-price-prediction.git" target="_blank" rel="noopener noreferrer" class="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">House Price Prediction </h3>
-                        <p class="text-gray-400 text-sm mb-4">Data analysis and visualization project analyzing key financial trends and insights.</p>
-                        <a href="https://house-price-prediction-09.streamlit.app/" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm inline-block mb-3 font-semibold"><i class="fa-solid fa-link mr-1"></i> Visit Project Link</a>
-                        <div class="flex gap-2">
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Matplotlib</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Python</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Streamlite</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden hover:shadow-sky-500/20 hover:shadow-lg transition-all duration-300 reveal">
-                    <div class="h-48 flex items-center justify-center group relative overflow-hidden">
-                        <img src="https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg" alt="Crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <a href="https://github.com/Sanjaymo/Crop_recommandation_system.git" target="_blank" rel="noopener noreferrer" class="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Crop Recommendation</h3>
-                        <p class="text-gray-400 text-sm mb-4">A machine learning-based crop recommendation system that predicts the most suitable crop to grow based on soil and environmental parameters.</p>
-                        <a href="https://crop09.streamlit.app/" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm inline-block mb-3 font-semibold"><i class="fa-solid fa-link mr-1"></i> Visit Project Link</a>
-                        <div class="flex gap-2">
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Python</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">ML</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden hover:shadow-sky-500/20 hover:shadow-lg transition-all duration-300 reveal">
-                    <div class="h-48 flex items-center justify-center group relative overflow-hidden">
-                        <img src="https://images.pexels.com/photos/7513460/pexels-photo-7513460.jpeg" alt="Movie" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <a href="https://github.com/Sanjaymo/movie_recommendation_system.git" target="_blank" rel="noopener noreferrer" class="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Movie Recommendation System</h3>
-                        <p class="text-gray-400 text-sm mb-4">A content-based movie recommendation system built with Python and Streamlit that suggests movies based on metadata similarity using NLP techniques and cosine similarity.</p>
-                        <a href="https://movie9.streamlit.app/" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm inline-block mb-3 font-semibold"><i class="fa-solid fa-link mr-1"></i> Visit Project Link</a>
-                        <div class="flex gap-2">
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Python</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">ML</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-xl overflow-hidden hover:shadow-sky-500/20 hover:shadow-lg transition-all duration-300 reveal">
-                    <div class="h-48 flex items-center justify-center group relative overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=500&q=60" alt="Personality" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                            <a href="https://github.com/Sanjaymo/Personality-Prediction-Check.git" target="_blank" rel="noopener noreferrer" class="text-white border border-white px-4 py-2 rounded hover:bg-white hover:text-black transition">View Details</a>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold mb-2">Personality Prediction</h3>
-                        <p class="text-gray-400 text-sm mb-4">A machine learning-powered system that predicts personality types (Introvert, Extrovert, Ambivert) based on behavioral patterns.</p>
-                        <a href="https://personality-prediction-check-enjtcfujydzgkcn8ihcwls.streamlit.app/" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm inline-block mb-3 font-semibold"><i class="fa-solid fa-link mr-1"></i> Visit Project Link</a>
-                        <div class="flex gap-2">
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Python</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">ML</span>
-                            <span class="text-xs bg-slate-700 px-2 py-1 rounded">Viz</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="career" class="py-20 px-4 bg-slate-900/50">
-        <div class="max-w-screen-xl mx-auto">
-            <h2 class="text-4xl font-bold mb-12 text-center text-white reveal">Career & <span class="text-gradient">Education</span></h2>
-            
-            <div class="max-w-3xl mx-auto relative border-l-2 border-slate-700 ml-4 md:ml-auto">
-                <div class="mb-10 ml-6 timeline-item reveal">
-                    <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-slate-900 dark:ring-gray-900 dark:bg-blue-900">
-                        <i class="fa-solid fa-briefcase text-blue-800 dark:text-blue-300 text-xs"></i>
-                    </span>
-                    <h3 class="flex items-center mb-1 text-lg font-semibold text-white">Data Science Intern <span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded ms-3">Latest</span></h3>
-                    <time class="block mb-2 text-sm font-normal leading-none text-gray-400">May 2025 - June 2025</time>
-                    <p class="mb-4 text-base font-normal text-gray-300">Center Of Excellence in Financial Technology - IIT Hyderabad. Worked on advanced data structures, algorithm scripting, and Machine Learning techniques in a research-focused environment.</p>
-                </div>
-
-                <div class="mb-10 ml-6 timeline-item reveal">
-                    <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-slate-900 dark:ring-gray-900 dark:bg-blue-900">
-                        <i class="fa-solid fa-laptop-code text-blue-800 dark:text-blue-300 text-xs"></i>
-                    </span>
-                    <h3 class="mb-1 text-lg font-semibold text-white">Full Stack Web Development Trainee</h3>
-                    <time class="block mb-2 text-sm font-normal leading-none text-gray-400">Feb 2025 - May 2025</time>
-                    <p class="text-base font-normal text-gray-300">Inspireleap associated with Wipro Dice. Developed an Employee Leave Management System and gained hands-on experience in full-cycle web development.</p>
-                </div>
-
-                <div class="mb-10 ml-6 timeline-item reveal">
-                    <span class="absolute flex items-center justify-center w-6 h-6 bg-purple-100 rounded-full -left-3 ring-8 ring-slate-900 dark:ring-gray-900 dark:bg-purple-900">
-                        <i class="fa-solid fa-graduation-cap text-purple-800 dark:text-purple-300 text-xs"></i>
-                    </span>
-                    <h3 class="mb-1 text-lg font-semibold text-white">Bachelor of Technology in Computer Science (AI)</h3>
-                    <time class="block mb-2 text-sm font-normal leading-none text-gray-400">Parul University, Vadodara, Gujarat, India | 2023 – 2027</time>
-                    <p class="text-base font-normal text-gray-300">Pursuing undergraduate degree with a focus on Computer Science and Data Science.</p>
-                </div>
-
-                <div class="ml-6 timeline-item reveal">
-                    <span class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -left-3 ring-8 ring-slate-900 dark:ring-gray-900 dark:bg-blue-900">
-                        <i class="fa-solid fa-laptop-code text-blue-800 dark:text-blue-300 text-xs"></i>
-                    </span>
-                    <h3 class="mb-1 text-lg font-semibold text-white">Higher Secondary Certificate</h3>
-                    <time class="block mb-2 text-sm font-normal leading-none text-gray-400">Sri Chaitanya Junior College, Karimnagar, Telangana, India | 2021 – 2023</time>
-                    <p class="text-base font-normal text-gray-300"></p>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-    <section id="services" class="py-20 px-4">
-        <div class="max-w-screen-xl mx-auto">
-            <h2 class="text-4xl font-bold mb-12 text-center text-white reveal">My <span class="text-gradient">Services</span></h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/50 transition-colors text-center reveal">
-                    <div class="bg-blue-500/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fa-solid fa-code text-3xl text-sky-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Web Development</h3>
-                    <p class="text-gray-300 leading-relaxed">
-                        I build responsive, high-performance web applications using the MERN stack (MongoDB, Express, React, Node.js). From landing pages to complex enterprise solutions, I ensure clean code and seamless user experiences.
-                    </p>
-                </div>
-
-                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/50 transition-colors text-center reveal">
-                    <div class="bg-purple-500/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fa-solid fa-brain text-3xl text-purple-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Data Science & AI</h3>
-                    <p class="text-gray-300 leading-relaxed">
-                        Transforming raw data into actionable insights. I specialize in building Machine Learning models, predictive analytics, and data visualization dashboards using Python, Pandas, and Scikit-learn.
-                    </p>
-                </div>
-
-                <div class="glass-card p-8 rounded-xl hover:bg-slate-800/50 transition-colors text-center reveal">
-                    <div class="bg-orange-500/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fa-solid fa-pen-ruler text-3xl text-orange-400"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">UI/UX Design Implementation</h3>
-                    <p class="text-gray-300 leading-relaxed">
-                        I bridge the gap between design and development. Using modern CSS frameworks like Tailwind, I bring creative designs to life with pixel-perfect precision and smooth animations.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="py-20 px-4">
-        <div class="max-w-screen-md mx-auto">
-            <h2 class="text-4xl font-bold mb-6 text-center reveal">Connect With <span class="text-gradient">Me</span></h2>
-            
-            <p class="text-xl text-gray-300 mb-10 text-center reveal">
-                I'm always excited to discuss AI/ML projects, Full Stack Web Development, or potential collaborations.
-            </p>
-
-            <form action="https://formspree.io/f/mzznaedb" method="POST" class="glass-card p-8 rounded-xl space-y-6 mb-12 reveal">
-                
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-sm font-bold text-sky-400 mb-2">Name</label>
-                        <input type="text" name="name" required placeholder="Sanjay Choudhari" class="w-full bg-slate-800/50 border border-slate-600 rounded-lg p-3 text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-colors">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-bold text-sky-400 mb-2">Email</label>
-                        <input type="email" name="email" required placeholder="sanjay@example.com" class="w-full bg-slate-800/50 border border-slate-600 rounded-lg p-3 text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-colors">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-bold text-sky-400 mb-2">Subject</label>
-                    <input type="text" name="_subject" required placeholder="Project Collaboration" class="w-full bg-slate-800/50 border border-slate-600 rounded-lg p-3 text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-colors">
-                </div>
-
-                <div>
-                    <label class="block text-sm font-bold text-sky-400 mb-2">Message</label>
-                    <textarea name="message" rows="5" required placeholder="Hi Sanjay, I'd like to talk about..." class="w-full bg-slate-800/50 border border-slate-600 rounded-lg p-3 text-white focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-colors"></textarea>
-                </div>
-
-                <button type="submit" class="w-full bg-gradient-to-r from-sky-500 to-indigo-600 hover:bg-gradient-to-bl text-white font-bold py-4 rounded-lg uppercase tracking-widest transition-all transform hover:-translate-y-1">
-                    Send Message <i class="fa-solid fa-paper-plane ml-2"></i>
-                </button>
-
-                <div class="flex items-center justify-center mb-10">
-                <span class="text-gray-500 text-sm">Or email me directly</span>
-                <a href="mailto:sanjaychoudhari288@gmail.com" class="ml-2 text-sky-400 hover:underline">sanjaychoudhari288@gmail.com</a>
-            </div>
-            </form>
-
-            <div class="mb-10 text-center reveal">
-                <h3 class="text-2xl font-bold mb-6 text-white">Coding <span class="text-gradient">Profiles</span></h3>
-                <div class="flex flex-wrap justify-center gap-6">
-                    <a href="https://leetcode.com/u/9949924386/" target="_blank" rel="noopener noreferrer" class="glass-card w-20 h-20 relative flex items-center justify-center rounded-xl text-3xl hover:text-yellow-500 hover:-translate-y-2 transition-all group">
-                        <i class="fa-solid fa-code"></i>
-                        <span class="absolute bottom-1 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity text-gray-300">LeetCode</span>
-                    </a>
-                    <a href="https://www.hackerrank.com/profile/sanjaychoudhari1" target="_blank" rel="noopener noreferrer" class="glass-card w-20 h-20 relative flex items-center justify-center rounded-xl text-3xl hover:text-green-500 hover:-translate-y-2 transition-all group">
-                        <i class="fa-brands fa-hackerrank"></i>
-                        <span class="absolute bottom-1 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity text-gray-300">HackerRank</span>
-                    </a>
-                    <a href="https://www.kaggle.com/sanjaychoudhari" target="_blank" rel="noopener noreferrer" class="glass-card w-20 h-20 relative flex items-center justify-center rounded-xl text-3xl hover:text-sky-400 hover:-translate-y-2 transition-all group">
-                        <i class="fa-brands fa-kaggle"></i>
-                        <span class="absolute bottom-1 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity text-gray-300">Kaggle</span>
-                    </a>
-                    <a href="https://www.codechef.com/users/sanjay_40" target="_blank" rel="noopener noreferrer" class="glass-card w-20 h-20 relative flex items-center justify-center rounded-xl text-3xl hover:text-orange-900 hover:-translate-y-2 transition-all group">
-                        <svg viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" transform="scale(0.8) translate(3,3)" />
-                            <text x="50%" y="55%" text-anchor="middle" dy=".3em" font-size="10" font-weight="bold" fill="currentColor">CC</text>
-                        </svg>
-                        <span class="absolute bottom-1 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity text-gray-300">CodeChef</span>
-                    </a>
-                </div>
-            </div>
-
-            <p class="text-gray-300 mb-6 text-center reveal">Social Media:</p>
-            
-            <div class="flex flex-wrap justify-center gap-6 mb-12 reveal">
-                <a href="https://www.linkedin.com/in/sanjaychoudhari09/" target="_blank" rel="noopener noreferrer" class="glass-card w-16 h-16 flex items-center justify-center rounded-full text-2xl hover:text-blue-600 hover:-translate-y-2 transition-all"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://github.com/Sanjaymo" target="_blank" rel="noopener noreferrer" class="glass-card w-16 h-16 flex items-center justify-center rounded-full text-2xl hover:text-white hover:-translate-y-2 transition-all"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.instagram.com/sanjay_choudhari09/" target="_blank" rel="noopener noreferrer" class="glass-card w-16 h-16 flex items-center justify-center rounded-full text-2xl hover:text-pink-500 hover:-translate-y-2 transition-all"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://www.facebook.com/profile.php?id=100052524602758" target="_blank" rel="noopener noreferrer" class="glass-card w-16 h-16 flex items-center justify-center rounded-full text-2xl hover:text-blue-500 hover:-translate-y-2 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="https://www.snapchat.com/add/choudhari204470?share_id=XhSexGwGYMw&locale=en-US" target="_blank" rel="noopener noreferrer" class="glass-card w-16 h-16 flex items-center justify-center rounded-full text-2xl hover:text-yellow-400 hover:-translate-y-2 transition-all"><i class="fa-brands fa-snapchat"></i></a>
-            </div>
-
-            <footer class="text-center text-gray-500 text-sm border-t border-gray-800 pt-8 reveal">
-                <p>&copy; 2025 Sanjay Choudhari. All rights reserved.</p>
-                    Built with 
-                    <span class="text-orange-400 hover:text-white transition-colors">HTML</span>, 
-                    <span class="text-sky-400 hover:text-white transition-colors">Tailwind CSS</span> &
-                    <span class="text-purple-400 hover:text-white transition-colors">JavaScript</span>
-                </p>
-            </footer>
-        </div>
-    </section>
-
-    <script>
-        // --- 3. Enhanced Realism Three.js & Site Logic ---
-        const initThreeJS = () => {
-            const canvas = document.getElementById('bg-canvas');
-            const scene = new THREE.Scene();
-            
-            // Adjust camera for better perspective
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 25;
-
-            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-
-            // --- REALISTIC LIGHTING SETUP ---
-            // Ambient light for base visibility
-            const ambientLight = new THREE.AmbientLight(0x404040, 2); // Soft white light
-            scene.add(ambientLight);
-
-            // Point Light 1 (Sky Blue)
-            const pointLight1 = new THREE.PointLight(0x38bdf8, 2, 100);
-            pointLight1.position.set(10, 10, 10);
-            scene.add(pointLight1);
-
-            // Point Light 2 (Purple)
-            const pointLight2 = new THREE.PointLight(0xc084fc, 2, 100);
-            pointLight2.position.set(-10, -10, 10);
-            scene.add(pointLight2);
-
-
-            // --- MAIN OBJECT (Metallic Icosahedron) ---
-            // Using Icosahedron for a tech/crystal look
-            const geometry = new THREE.IcosahedronGeometry(10, 1); // 1 = detail level
-            
-            // Standard Material reacts to light (Realism)
-            const material = new THREE.MeshStandardMaterial({ 
-                color: 0x1e293b, // Dark slate base
-                roughness: 0.3,   // Shiny
-                metalness: 0.8,   // Metallic
-                flatShading: true // Faceted look
-            });
-
-            const mainObject = new THREE.Mesh(geometry, material);
-            scene.add(mainObject);
-
-            // Add a wireframe cage around it for "Tech" feel
-            const wireGeo = new THREE.IcosahedronGeometry(10.2, 1);
-            const wireMat = new THREE.MeshBasicMaterial({ 
-                color: 0x38bdf8, 
-                wireframe: true, 
-                transparent: true, 
-                opacity: 0.1 
-            });
-            const wireframe = new THREE.Mesh(wireGeo, wireMat);
-            scene.add(wireframe);
-
-            // --- PARTICLES (Stars) ---
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particlesCount = 1000;
-            const posArray = new Float32Array(particlesCount * 3);
-
-            for(let i = 0; i < particlesCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 100;
-            }
-
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.15,
-                color: 0xffffff,
-                transparent: true,
-                opacity: 0.5
-            });
-            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particlesMesh);
-
-            // --- ANIMATION LOOP ---
-            let mouseX = 0;
-            let mouseY = 0;
-
-            document.addEventListener('mousemove', (event) => {
-                mouseX = event.clientX / window.innerWidth - 0.5;
-                mouseY = event.clientY / window.innerHeight - 0.5;
-            });
-
-            const animate = () => {
-                requestAnimationFrame(animate);
-
-                // Rotate Object
-                mainObject.rotation.x += 0.002;
-                mainObject.rotation.y += 0.003;
-                wireframe.rotation.x += 0.002;
-                wireframe.rotation.y += 0.003;
-
-                // Interactive Tilt (Parallax)
-                mainObject.rotation.x += mouseY * 0.02;
-                mainObject.rotation.y += mouseX * 0.02;
-
-                // Move Lights to create dynamic shadows
-                const time = Date.now() * 0.001;
-                pointLight1.position.x = Math.sin(time) * 20;
-                pointLight1.position.z = Math.cos(time) * 20;
-                pointLight2.position.y = Math.cos(time) * 20;
-
-                // Particle Rotation
-                particlesMesh.rotation.y -= 0.001;
-
-                renderer.render(scene, camera);
-            };
-
-            animate();
-
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-        };
-
-        const toggleMenu = () => {
-            const btn = document.getElementById('menu-toggle');
-            const menu = document.getElementById('navbar-default');
-            btn.addEventListener('click', () => { menu.classList.toggle('hidden'); });
-        };
-
-        const scrollSpy = () => {
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-link');
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    if (scrollY >= (section.offsetTop - 200)) current = section.getAttribute('id');
-                });
-                navLinks.forEach(link => {
-                    link.classList.remove('text-sky-400');
-                    link.classList.add('text-gray-300');
-                    if (link.getAttribute('href').includes(current)) {
-                        link.classList.remove('text-gray-300');
-                        link.classList.add('text-sky-400');
-                    }
-                });
-            });
-        };
-        
-        // --- 4. SCROLL REVEAL OBSERVER ---
-        const initScrollReveal = () => {
-            const revealElements = document.querySelectorAll('.reveal');
-            
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                        // Optional: Stop observing once revealed to only animate once
-                        observer.unobserve(entry.target); 
-                    }
-                });
-            }, {
-                threshold: 0.15, // Trigger when 15% of element is visible
-                rootMargin: "0px 0px -50px 0px" // Trigger slightly before bottom
-            });
-
-            revealElements.forEach(el => revealObserver.observe(el));
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initThreeJS();
-            toggleMenu();
-            scrollSpy();
-            initScrollReveal(); // Initialize the scroll animation
-        });
-
-    </script>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>(c) <span class="js-year"></span> Sanjay Choudhari</p>
+      <p>Built as a multi-page static portfolio.</p>
+    </div>
+  </footer>
 </body>
 </html>
